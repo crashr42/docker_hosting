@@ -84,7 +84,7 @@ module DockerHosting
 
       def build_cmd
         cmd = [
-            cmd_bundle("install --path '.bundle' --binstubs"),
+            cmd_bundle('install --path .bundle --binstubs'),
             "rm -rf #{File.join(project_root, '/tmp/pids/server.pid')}",
             cmd_bundle('exec rails s -b 0.0.0.0')
         ]

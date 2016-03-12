@@ -6,4 +6,7 @@ DockerHosting.setup do |config|
   config.postgresql_ctrl     = '/etc/init.d/postgresql-95'
   config.postgresql_bin      = '/opt/postgresql/pg95/bin'
   config.ruby_version        = '2.2.1'
+  config.app_volumes         = {
+      Rails.root => '/srv/app'
+  }
 end

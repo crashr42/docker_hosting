@@ -37,23 +37,30 @@ module DockerHosting
           # ignored
         end
 
+        volumes = Hash[*DockerHosting.app_volumes.values.map { |v| {v => {}} }.collect { |v| v.to_a }.flatten]
+
         container = Docker::Container.create(
             'name'          => image_tag,
             'Image'         => image_tag,
-            'Volumes':      {
-                project_root => {}
-            },
+            'Volumes':      volumes,
             'ExposedPorts': {
                 '3000/tcp': {}
             },
             'HostConfig':   {
-                'Binds':        ["#{Rails.root}:#{project_root}"],
+                'Binds':        DockerHosting.app_volumes.map { |k, v| "#{k}:#{v}" },
                 'PortBindings': {
                     '3000/tcp': [{'HostPort': '5000'}]
                 },
             },
         )
         container.start!
+      end
+
+      def build_nodejs
+        out = []
+        out << cmd_run('curl -sL https://rpm.nodesource.com/setup_5.x | bash -')
+        out << cmd_system_package('nodejs')
+        out
       end
 
       def build_image
@@ -79,6 +86,7 @@ module DockerHosting
         out << build_database
         out << build_project
         out << build_cmd
+        out << build_nodejs
         out << ''
         out.join("\n")
       end
@@ -157,7 +165,7 @@ module DockerHosting
       end
 
       def cmd_bundle(cmd)
-        cmd_wrap(["cd #{project_root}", rvm_shell("bundle #{cmd}")])
+        cmd_wrap(["cd #{project_root}", "bundle #{cmd}"])
       end
     end
   end

@@ -13,6 +13,7 @@ module DockerHosting
         # noinspection RubyResolve
         require Rails.root.join('config/initializers/hosting.rb')
 
+        remove_file 'config/hosting/Dockerfile'
         create_file 'config/hosting/Dockerfile', build_dockerfile
 
         build_image

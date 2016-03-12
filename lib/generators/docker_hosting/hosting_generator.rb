@@ -85,8 +85,8 @@ module DockerHosting
         out << build_ruby
         out << build_database
         out << build_project
-        out << build_cmd
         out << build_nodejs
+        out << build_cmd
         out << ''
         out.join("\n")
       end

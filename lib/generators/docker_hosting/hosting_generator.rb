@@ -11,7 +11,7 @@ module DockerHosting
         template 'hosting.rb', 'config/initializers/hosting.rb'
 
         # noinspection RubyResolve
-        require File.expand_path('config/initializers/hosting.rb', destination_root)
+        require Rails.root.join('config/initializers/hosting.rb')
 
         create_file 'config/hosting/Dockerfile', build_dockerfile
 

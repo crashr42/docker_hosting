@@ -6,8 +6,12 @@ module DockerHosting
   mattr_accessor :postgresql_ctrl
   mattr_accessor :postgresql_bin
   mattr_accessor :ruby_version
-  mattr_accessor :app_port
+  mattr_accessor :app_env
+  mattr_accessor :app_name
+  mattr_accessor :app_root
+  mattr_accessor :app_database
   mattr_accessor :app_volumes
+  mattr_accessor :app_ports
 
   def self.setup
     yield self

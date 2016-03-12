@@ -23,7 +23,9 @@ module DockerHosting
 
       private
       def project_root
-        '/srv/app'
+        '/srv/app' unless DockerHosting.app_volumes.key?(Rails.root)
+
+        DockerHosting.app_volumes[Rails.root]
       end
 
       def image_tag
@@ -46,6 +48,7 @@ module DockerHosting
             'ExposedPorts': {
                 '3000/tcp': {}
             },
+            'WorkingDir':   project_root,
             'HostConfig':   {
                 'Binds':        DockerHosting.app_volumes.map { |k, v| "#{k}:#{v}" },
                 'PortBindings': {

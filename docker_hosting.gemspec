@@ -10,9 +10,9 @@ Gem::Specification.new do |s|
   s.version     = DockerHosting::VERSION
   s.authors     = ['Nikita Koshkin']
   s.email       = ['nikita.kem@gmail.com']
-  s.homepage    = 'TODO'
-  s.summary     = 'TODO: Summary of DockerHosting.'
-  s.description = 'TODO: Description of DockerHosting.'
+  s.homepage    = 'http://localhost'
+  s.summary     = 'Docker hosting.'
+  s.description = 'Docker hosting.'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']

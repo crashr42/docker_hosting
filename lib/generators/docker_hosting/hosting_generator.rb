@@ -83,10 +83,13 @@ module DockerHosting
       end
 
       def build_cmd
-        "CMD /bin/bash -l -c '" + cmd_wrap(["cd #{project_root}",
-                  "bundle install --path #{File.join(project_root, '.bundle')} --binstubs",
-                  "rm -rf #{File.join(project_root, '/tmp/pids/server.pid')}",
-                  'bundle exec rails s -b 0.0.0.0']) + "'"
+        cmd = [
+            cmd_bundle("install --path #{File.join(project_root, '.bundle')} --binstubs"),
+            "rm -rf #{File.join(project_root, '/tmp/pids/server.pid')}",
+            cmd_bundle('exec rails s -b 0.0.0.0')
+        ]
+
+        'CMD ' + rvm_shell(cmd_wrap(cmd))
       end
 
       def build_base
@@ -133,7 +136,11 @@ module DockerHosting
       end
 
       def cmd_rvm_shell(cmd)
-        cmd_run("/bin/bash -l -c '#{cmd}'")
+        cmd_run(rvm_shell(cmd))
+      end
+
+      def rvm_shell(cmd)
+        "/bin/bash -l -c '#{cmd}'"
       end
 
       def cmd_wrap(cmd)
@@ -146,6 +153,10 @@ module DockerHosting
 
       def cmd_system_package(package)
         cmd_run("yum install -y #{package}")
+      end
+
+      def cmd_bundle(cmd)
+        cmd_wrap(["cd #{project_root}", rvm_shell("bundle #{cmd}")])
       end
     end
   end

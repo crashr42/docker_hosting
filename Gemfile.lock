@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    docker_hosting (0.0.1)
+    docker_hosting (0.0.2)
       docker-api
       rails (~> 4.2.5.2)
 
